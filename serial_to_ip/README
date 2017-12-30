@@ -1,0 +1,6 @@
+Usage:
+
+Place the following line in rc.local (or another appropriate place):
+
+/usr/bin/pike /root/serial.pike >/var/log/serial.log 2>&1 &
+
