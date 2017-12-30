@@ -1,0 +1,63 @@
+#! /bin/sh
+# Short-Description:    Start and stop openHAB in screen Session
+# Description:    This runs openHAB continuously in screen.
+# Set OH-User
+
+
+. /lib/svc/share/smf_include.sh
+
+# Set OH-Path
+OHPATH=/opt/openhab2
+#MUST be updated with your openahb 2 directory, where there is start.sh
+
+# uncomment and set if necessary to obtain correct Codepage and language
+# export LC_ALL=de_DE.UTF-8
+LC_ALL=C
+
+#INSTALL
+#sudo chmod a+x /etc/init.d/openhab
+#sudo update-rc.d openhab defaults
+
+#ACCESSING
+#sudo -u <OHUSER the same defined above> screen -r openHAB
+
+#UNINSTALL
+#sudo update-rc.d -f openhab remove
+case "$1" in
+
+  'start')
+        PID=`ps -ef | grep openHAB | grep -v grep | awk '{print $2}'`
+        if [ "${PID}" != "" ]
+         then
+          echo "Oops! Cannot start, openHAB-Screen is already started!"
+         else
+          echo "Starting openHAB"
+          cd ${OHPATH}
+          screen -S openHAB -dm  sh ./start.sh
+          # screen -S openHAB -dm  sh ./start.sh #if you want to start OH on debug mode
+        fi
+        ;;
+  'stop')
+        echo "Stopping openHAB"
+        screen -S openHAB -p 0 -X stuff "system:shutdown -f$(printf \\r\\n)"
+        PID=`ps -ef | grep openHAB | grep -v grep | awk '{print $2}'`
+        while [ `ps -ef | grep $PID | wc -l` -gt 1 ]
+         do
+          echo -n .
+          sleep 2
+         done
+        echo .
+        ;;
+  'refresh'|'force-reload')
+        echo "Restarting openHAB"
+        $0 stop
+        echo "Waiting termination..."
+        sleep 5s
+        $0 start
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|refresh}" >&2
+        exit 1
+        ;;
+esac
+exit $SMF_EXIT_OK

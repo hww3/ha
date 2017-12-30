@@ -1,3 +1,7 @@
+openhab2_smf
+
+  a configuration for running OpenHAB 2 under SMF (Solaris/OpenSolaris/Illumos)
+
 serial_to_ip
 
   a pike script that bridges a serial port to tcp. useful for

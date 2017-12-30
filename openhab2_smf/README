@@ -1,0 +1,12 @@
+This configuration requires screen to be installed. 
+
+  pkgin -y in screen
+
+Store in /usr/local/lib/svc/. Modify method/openhab2 to point to your
+installation of openhab, which defaults to /opt/openhab2. Modify manifest/openhab2.xml to point to your JAVA_HOME. Defaults to openjdk from pkgsrc.
+
+Install using:
+
+svccfg import /usr/local/lib/svc/manifest/openhab2.xml
+
+svcadm enable application/openhab2

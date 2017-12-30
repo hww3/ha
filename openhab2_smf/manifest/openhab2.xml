@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+
+<service_bundle type='manifest' name='openhab2:default'>
+
+<service name='application/openhab2' type='service' version='1'>
+
+
+<dependency name='Network' grouping='require_all'
+   restart_on='none' type='service'>
+        <service_fmri value='svc:/milestone/network:default' />
+        </dependency>
+
+<dependency name='fs-local' grouping='require_all'
+   restart_on='none' type='service'>
+        <service_fmri value='svc:/system/filesystem/local:default' />
+        </dependency>
+<instance name="default" enabled="false">
+<method_context>
+  <method_credential user='openhab2' group='openhab2' />
+  <method_environment>
+    <envvar name="JAVA_HOME" value="/opt/local/java/openjdk8"/>
+  </method_environment>
+  </method_context>
+
+<exec_method type='method' name='start' 
+     exec='/usr/local/lib/svc/method/openhab2 start' 
+          timeout_seconds="60" />
+<exec_method type='method' name='stop' 
+     exec='/usr/local/lib/svc/method/openhab2 stop' 
+         timeout_seconds="60" />
+
+<exec_method type='method' name='refresh' 
+     exec='/usr/local/lib/svc/method/openhab2 refresh' 
+          timeout_seconds="60" />
+</instance>
+<stability value="Evolving"/>
+<template>
+   <common_name>
+         <loctext xml:lang='C'>OpenHAB 2</loctext>
+           </common_name>
+             <documentation>
+                   <manpage title='' section='' manpath='/usr/share/man' />
+                         <doc_link name='homepage' uri='http://openhab.org' />
+                           </documentation>
+                           </template>
+
+</service>
+</service_bundle>
