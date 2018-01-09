@@ -1,0 +1,69 @@
+{
+  "variables": {
+    "admin_password": "",
+    "triton_url": "",
+    "triton_account": "",
+    "triton_key_id": ""
+  },
+
+  "builders": [
+    {
+      "type": "triton",
+      "triton_url": "{{user `triton_url`}}",
+      "triton_account": "{{user `triton_account`}}",
+      "triton_key_id": "{{user `triton_key_id`}}",
+
+      "source_machine_name": "openhabcloud-builder",
+      "source_machine_package": "g4-highcpu-1G",
+      "source_machine_image_filter": {
+        "name": "base-64-lts",
+        "most_recent": "true"
+      },
+
+      "ssh_username": "root",
+
+      "image_name": "openhabcloud_image",
+      "image_version": "1.0.0"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "app.js.patch",
+      "destination": "/app.js.patch"
+    },
+    {
+      "type": "file",
+      "source": "ngenix.conf",
+      "destination": "/ngenix.conf"
+    },
+    {
+      "type": "file",
+      "source": "config.json",
+      "destination": "/config.json"
+    },
+    {
+      "type": "file",
+      "source": "letsencrypt_setup.sh",
+      "destination": "/letsencrypt_setup.sh"
+    },
+    {
+      "type": "file",
+      "source": "letsencrypt_setup.xml",
+      "destination": "/letsencrypt_setup.xml"
+    },
+    {
+      "type": "file",
+      "source": "openhab-cloud.xml",
+      "destination": "/openhab-cloud.xml"
+    },
+    {
+      "type": "shell",
+      "environment_vars": ["OPENHAB_ADMIN_PASSWORD={{user `admin_password`}}"],
+      "scripts": [
+	"provision.sh"
+      ]
+    }
+  ]
+}

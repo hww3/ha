@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<service_bundle type="manifest" name="export">
+  <service name="local/openhab-cloud" type="service" version="1">
+    <create_default_instance enabled="false" />
+    <single_instance />
+    <dependency name='network' grouping='require_all' restart_on='error' type='service'>
+      <service_fmri value='svc:/milestone/network:default' />
+    </dependency>
+    <dependency name='filesystem-local' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/system/filesystem/local:default' />
+    </dependency>
+    <dependency name='redis' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/pkgsrc/redis:default' />
+    </dependency>
+    <dependency name='mongodb' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/pkgsrc/mongodb:default' />
+    </dependency>
+    <method_context working_directory="/var/www/openhab/openhab-cloud">
+      <method_credential user='www' group='www' />
+    </method_context>
+    <exec_method type="method" name="start" exec="/opt/local/bin/node app.js &amp;" timeout_seconds="240" />
+    <exec_method type="method" name="stop" exec=":kill" timeout_seconds="120" />
+    <template>
+      <common_name>
+        <loctext xml:lang="C">OpenHAB Cloud</loctext>
+      </common_name>
+    </template>
+  </service>
+</service_bundle>
