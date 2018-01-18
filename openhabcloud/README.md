@@ -1,7 +1,5 @@
 # openhabcloud
 
-![](https://i.goopics.net/nI.png)
-
 ### What is this ?
 
 OpenHAB Cloud provides remote access to OpenHAB instances
