@@ -68,7 +68,7 @@ svccfg import /usr/local/lib/svc/manifest/openhab-cloud.xml
 
 /usr/sbin/svcadm enable -r svc:/local/openhab-cloud:default
 /usr/sbin/svcadm enable -r svc:/local/letsencrypt_setup:default
-(crontab -l ; echo "51 1,13 * * * /usr/local/bin/certbot-auto renew > /dev/null") | crontab
+(crontab -l ; echo "51 1,13 * * * /usr/local/bin/certbot-auto -q renew") | crontab
 sleep 5
 pkgin -y rm gcc47 gcc49 unzip \
 	curl \
