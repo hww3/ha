@@ -11,3 +11,7 @@ serial_to_ip
 
   a pike script that bridges a serial port to tcp. useful for
   enabling communication devices with serial ports but no ethernet
+
+softether_smf
+
+  A SMF manifest for managing softether vpn servers
